@@ -4,27 +4,6 @@
 ![](https://img.shields.io/npm/dm/@napi-rs/blake-hash.svg?sanitize=true)
 [![Install size](https://packagephobia.com/badge?p=blake-hash)](https://packagephobia.com/result?p=blake-hash)
 
-## Roadmap
-
-- [ ] blake2b
-  - [ ] Params
-  - [x] Hash
-- [ ] blake2s
-  - [ ] Pramas
-  - [x] Hash
-- [ ] blake2bp
-  - [ ] Pramas
-  - [x] Hash
-- [ ] blake2sp
-  - [ ] Params
-  - [x] Hash
-- [ ] blake3
-  - [x] new
-  - [ ] new_keyed
-  - [ ] new_derive_key
-  - [ ] reset
-  - [ ] derive_key
-
 ## Performance
 
 Compare with [`blake3`](https://github.com/connor4312/blake3) and [`blake2`](https://github.com/vrza/node-blake2).
