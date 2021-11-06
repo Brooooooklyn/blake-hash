@@ -46,3 +46,31 @@ Finished 2 cases!
   Fastest: blake3-napi
   Slowest: blake3-neon
 ```
+
+## Blake2
+
+Support `blake2b` `blake2bp` `blake2s` `blake2sp` algorithm.
+
+### Unkeyed Hash
+
+```js
+import { Blake2BHasher } from '@napi-rs/blake-hash'
+
+const hasher = new Blake2BHasher()
+hasher.update('content to be hash')
+hasher.digest('hex') // could also be `base64` or `url-safe-base64`
+
+```
+
+### Keyed Hash
+
+```js
+import { Blake2BHasher, Blake2BParam } from '@napi-rs/blake-hash'
+
+const hashParams = new Blake2BParam()
+hashParams.personal('someone@email.com')
+const hash = Blake2BHasher.withParams(hashParams)
+
+hash.update('your secret')
+hash.digest('hex')
+```
