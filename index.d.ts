@@ -1,3 +1,8 @@
+export function blake2b(input: string | Buffer): Buffer
+export function blake2bp(input: string | Buffer): Buffer
+export function blake2s(input: string | Buffer): Buffer
+export function blake2sp(input: string | Buffer): Buffer
+export function blake3(input: string | Buffer): Buffer
 export class Blake2BParam {
   
   constructor()
