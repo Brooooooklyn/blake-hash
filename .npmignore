@@ -1,4 +1,5 @@
 target
+Cargo.toml
 Cargo.lock
 .cargo
 .github
@@ -8,3 +9,9 @@ npm
 rustfmt.toml
 yarn.lock
 *.node
+anime-girl.png
+bench-next.mjs
+bench.mjs
+renovate.json
+rust-toolchain
+yarn.lock

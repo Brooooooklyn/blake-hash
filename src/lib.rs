@@ -165,3 +165,47 @@ impl Blake3Hasher {
     self.0.finalize().as_bytes().to_vec().into()
   }
 }
+
+#[napi(js_name = "blake2b")]
+pub fn blake2b(input: Either<String, Buffer>) -> Buffer {
+  match input {
+    Either::A(a) => blake2b_simd::blake2b(a.as_bytes()).as_ref().into(),
+    Either::B(b) => blake2b_simd::blake2b(b.as_ref()).as_ref().into(),
+  }
+}
+
+#[napi(js_name = "blake2bp")]
+pub fn blake2bp(input: Either<String, Buffer>) -> Buffer {
+  match input {
+    Either::A(a) => blake2b_simd::blake2bp::blake2bp(a.as_bytes())
+      .as_ref()
+      .into(),
+    Either::B(b) => blake2b_simd::blake2bp::blake2bp(b.as_ref()).as_ref().into(),
+  }
+}
+
+#[napi(js_name = "blake2s")]
+pub fn blake2s(input: Either<String, Buffer>) -> Buffer {
+  match input {
+    Either::A(a) => blake2s_simd::blake2s(a.as_bytes()).as_ref().into(),
+    Either::B(b) => blake2s_simd::blake2s(b.as_ref()).as_ref().into(),
+  }
+}
+
+#[napi(js_name = "blake2sp")]
+pub fn blake2sp(input: Either<String, Buffer>) -> Buffer {
+  match input {
+    Either::A(a) => blake2s_simd::blake2sp::blake2sp(a.as_bytes())
+      .as_ref()
+      .into(),
+    Either::B(b) => blake2s_simd::blake2sp::blake2sp(b.as_ref()).as_ref().into(),
+  }
+}
+
+#[napi]
+fn blake3(input: Either<String, Buffer>) -> Buffer {
+  match input {
+    Either::A(a) => blake3::hash(a.as_bytes()).as_bytes().as_ref().into(),
+    Either::B(b) => blake3::hash(b.as_ref()).as_bytes().as_ref().into(),
+  }
+}
