@@ -184,6 +184,7 @@ jobs:
             freebsd-version
             yarn install --ignore-scripts --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
             yarn build
+            strip -x *.node
             yarn test
             rm -rf node_modules
             rm -rf target
