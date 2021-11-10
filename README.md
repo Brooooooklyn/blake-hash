@@ -99,7 +99,7 @@ hasher.digest("hex"); // e186adf36b0c4e421b2baa881e158a4b3b074626882a6e1dfb231ae
 
 Compare with [`blake3`](https://github.com/connor4312/blake3) and [`blake2`](https://github.com/vrza/node-blake2).
 
-> Benchmark results was generated from GitHub Codespaces.
+> Benchmark results were generated from GitHub Codespaces.
 
 ```
 Running "digest big file blake2b" suite...
