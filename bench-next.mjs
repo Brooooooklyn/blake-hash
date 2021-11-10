@@ -3,9 +3,9 @@ import { promises as fs } from 'fs'
 
 import b from 'benny'
 
-import { Blake2BHasher, Blake2SHasher, Blake3Hasher } from './index.js'
+import { Blake2BHasher, Blake2BpHasher, Blake2SpHasher, Blake2SHasher, Blake3Hasher, blake3UrlSafeBase64 } from './index.js'
 
-const FIXTURE = [3, 'http://abc.xyz/logo.webp', 256, 0.9, 'image/webp', Buffer.from('abcdefghijklmnopqrstuvwxyz0123456789')]
+const FIXTURE = [3, 'http://abc.xyz/logo.webp', 256, 0.9, 'image/webp']
 const BIG_IMAGE = await fs.readFile('./anime-girl.png')
 
 function getURLSafeHashSha256(items) {
@@ -38,37 +38,8 @@ function getURLSafeHashBlake2S(items) {
 }
 
 function getURLSafeHashBlake3(items) {
-  const hash = new Blake3Hasher()
-  items.forEach((item) => {
-    hash.update(item)
-  })
-  return hash.digest('base64-url-safe')
+  return blake3UrlSafeBase64(items.join(''))
 }
-
-await b.suite('digest big file',
-  b.add('blake3', () => {
-    const hash = new Blake3Hasher()
-    hash.update(BIG_IMAGE)
-    return hash.digest('base64-url-safe')
-  }),
-  b.add('blake2b', () => {
-    const hash = new Blake2BHasher()
-    hash.update(BIG_IMAGE)
-    return hash.digest('base64-url-safe')
-  }),
-  b.add('blake2s', () => {
-    const hash = new Blake2SHasher()
-    hash.update(BIG_IMAGE)
-    return hash.digest('base64-url-safe')
-  }),
-  b.add('sha256', () => {
-    const hash = createHash('sha256')
-    hash.update(BIG_IMAGE)
-    return hash.digest('base64').replace(/\//g, '-')
-  }),
-  b.cycle(),
-  b.complete(),
-)
 
 await b.suite('digest hash into url-safe-base64',
   b.add('blake3', () => {
@@ -82,6 +53,41 @@ await b.suite('digest hash into url-safe-base64',
   }),
   b.add('sha256', () => {
     getURLSafeHashSha256(FIXTURE)
+  }),
+  b.cycle(),
+  b.complete(),
+)
+
+await b.suite('digest big file',
+  b.add('blake3', () => {
+    const hash = new Blake3Hasher()
+    hash.update(BIG_IMAGE)
+    return hash.digest('base64-url-safe')
+  }),
+  b.add('blake2b', () => {
+    const hash = new Blake2BHasher()
+    hash.update(BIG_IMAGE)
+    return hash.digest('base64-url-safe')
+  }),
+  b.add('blake2bp', () => {
+    const hash = new Blake2BpHasher()
+    hash.update(BIG_IMAGE)
+    return hash.digest('base64-url-safe')
+  }),
+  b.add('blake2s', () => {
+    const hash = new Blake2SHasher()
+    hash.update(BIG_IMAGE)
+    return hash.digest('base64-url-safe')
+  }),
+  b.add('blake2sp', () => {
+    const hash = new Blake2SpHasher()
+    hash.update(BIG_IMAGE)
+    return hash.digest('base64-url-safe')
+  }),
+  b.add('sha256', () => {
+    const hash = createHash('sha256')
+    hash.update(BIG_IMAGE)
+    return hash.digest('base64').replace(/\//g, '-')
   }),
   b.cycle(),
   b.complete(),

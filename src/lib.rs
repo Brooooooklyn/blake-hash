@@ -209,3 +209,12 @@ fn blake3(input: Either<String, Buffer>) -> Buffer {
     Either::B(b) => blake3::hash(b.as_ref()).as_bytes().as_ref().into(),
   }
 }
+
+#[napi]
+fn blake3_url_safe_base64(input: Either<String, Buffer>) -> String {
+  let o = match input {
+    Either::A(a) => blake3::hash(a.as_bytes()),
+    Either::B(b) => blake3::hash(b.as_ref()),
+  };
+  base64::encode_config(o.as_bytes(), base64::URL_SAFE)
+}
