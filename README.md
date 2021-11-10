@@ -2,7 +2,7 @@
 
 ![https://github.com/Brooooooklyn/blake-hash/actions](https://github.com/Brooooooklyn/blake-hash/workflows/CI/badge.svg)
 ![](https://img.shields.io/npm/dm/@napi-rs/blake-hash.svg?sanitize=true)
-[![Install size](https://packagephobia.com/badge?p=blake-hash)](https://packagephobia.com/result?p=blake-hash)
+[![Install size](https://packagephobia.com/badge?p=@napi-rs/blake-hash)](https://packagephobia.com/result?p=@napi-rs/blake-hash)
 
 ## Performance
 
