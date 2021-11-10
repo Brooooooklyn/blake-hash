@@ -4,6 +4,23 @@
 ![](https://img.shields.io/npm/dm/@napi-rs/blake-hash.svg?sanitize=true)
 [![Install size](https://packagephobia.com/badge?p=@napi-rs/blake-hash)](https://packagephobia.com/result?p=@napi-rs/blake-hash)
 
+## Support matrix
+
+|                  | node12 | node14 | node16 |
+| ---------------- | ------ | ------ | ------ |
+| Windows x64      | ✓      | ✓      | ✓      |
+| Windows x32      | ✓      | ✓      | ✓      |
+| Windows arm64    | ✓      | ✓      | ✓      |
+| macOS x64        | ✓      | ✓      | ✓      |
+| macOS arm64      | ✓      | ✓      | ✓      |
+| Linux x64 gnu    | ✓      | ✓      | ✓      |
+| Linux x64 musl   | ✓      | ✓      | ✓      |
+| Linux arm gnu    | ✓      | ✓      | ✓      |
+| Linux arm64 gnu  | ✓      | ✓      | ✓      |
+| Linux arm64 musl | ✓      | ✓      | ✓      |
+| Android arm64    | ✓      | ✓      | ✓      |
+| FreeBSD x64      | ✓      | ✓      | ✓      |
+
 ## Blake2
 
 Support `blake2b` `blake2bp` `blake2s` `blake2sp` algorithm.
