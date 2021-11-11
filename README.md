@@ -4,6 +4,8 @@
 ![](https://img.shields.io/npm/dm/@napi-rs/blake-hash.svg?sanitize=true)
 [![Install size](https://packagephobia.com/badge?p=@napi-rs/blake-hash)](https://packagephobia.com/result?p=@napi-rs/blake-hash)
 
+Node.js binding for https://github.com/BLAKE3-team/BLAKE3. High performance, and no postinstall scripts.
+
 ## Support matrix
 
 |                  | node12 | node14 | node16 |
@@ -147,12 +149,17 @@ Running "digest big file blake3" suite...
 Progress: 100%
 
   blake3-napi:
-    6 670 ops/s, ±0.98%   | fastest
+    6 747 ops/s, ±0.90%   | fastest
 
   blake3-neon:
-    532 ops/s, ±1.36%     | slowest, 92.02% slower
+    6 669 ops/s, ±1.04%   | slowest, 1.16% slower
 
 Finished 2 cases!
   Fastest: blake3-napi
   Slowest: blake3-neon
 ```
+
+## Other implementations
+
+- https://github.com/connor4312/blake3
+- https://github.com/vrza/node-blake2
