@@ -8,7 +8,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 base64 = "0.13"
-blake2b_simd = "0.5"
+blake2b_simd = "1.0"
 blake2s_simd = "1.0"
 blake3 = "1"
 hex = "0.4"
