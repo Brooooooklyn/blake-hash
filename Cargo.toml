@@ -12,8 +12,8 @@ blake2b_simd = "1.0"
 blake2s_simd = "1.0"
 blake3 = "1"
 hex = "0.4"
-napi = "2.0.0-alpha.4"
-napi-derive = "2.0.0-alpha.6"
+napi = "2.0.0-alpha.5"
+napi-derive = "2.0.0-alpha.7"
 ryu = "1"
 
 [target.'cfg(all(not(all(target_os = "linux", target_arch = "aarch64", target_env = "musl")), not(all(target_os = "windows", target_arch = "aarch64"))))'.dependencies]

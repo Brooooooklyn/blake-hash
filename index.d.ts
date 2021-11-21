@@ -1,3 +1,11 @@
+/* eslint-disable */
+
+export class ExternalObject<T> {
+  readonly '': {
+    readonly '': unique symbol
+    [K: symbol]: T
+  }
+}
 export function blake2b(input: string | Buffer): Buffer
 export function blake2bp(input: string | Buffer): Buffer
 export function blake2s(input: string | Buffer): Buffer
@@ -47,7 +55,7 @@ export class Blake2BHasher {
   constructor()
   static withParams(params: Blake2BParam): Blake2BHasher
   update(input: string | Buffer | number): void
-  digest(format: string | null): string
+  digest(format?: string | undefined | null): string
   digestBuffer(): Buffer
 }
 export class Blake2BpHasher {
@@ -55,7 +63,7 @@ export class Blake2BpHasher {
   constructor()
   static withParams(params: Blake2BpParam): Blake2BpHasher
   update(input: string | Buffer | number): void
-  digest(format: string | null): string
+  digest(format?: string | undefined | null): string
   digestBuffer(): Buffer
 }
 export class Blake2SHasher {
@@ -63,7 +71,7 @@ export class Blake2SHasher {
   constructor()
   static withParams(params: Blake2SParam): Blake2SHasher
   update(input: string | Buffer | number): void
-  digest(format: string | null): string
+  digest(format?: string | undefined | null): string
   digestBuffer(): Buffer
 }
 export class Blake2SpHasher {
@@ -71,7 +79,7 @@ export class Blake2SpHasher {
   constructor()
   static withParams(params: Blake2SpParam): Blake2SpHasher
   update(input: string | Buffer | number): void
-  digest(format: string | null): string
+  digest(format?: string | undefined | null): string
   digestBuffer(): Buffer
 }
 export class Blake3Hasher {
@@ -82,6 +90,6 @@ export class Blake3Hasher {
   static newDeriveKey(input: string): Blake3Hasher
   reset(): void
   update(input: string | Buffer | number): void
-  digest(format: string | null): string
+  digest(format?: string | undefined | null): string
   digestBuffer(): Buffer
 }
