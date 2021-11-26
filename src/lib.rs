@@ -28,7 +28,7 @@ macro_rules! impl_hasher {
       }
 
       #[napi]
-      pub fn update(&mut self, input: Either3<String, Buffer, f64>) -> Result<()> {
+      pub fn update(&mut self, input: Either3<String, Buffer, f64>) -> Result<&Self> {
         match input {
           Either3::A(a) => {
             self.0.update(a.as_bytes());
@@ -41,7 +41,7 @@ macro_rules! impl_hasher {
             self.0.update(buffer.format_finite(c).as_bytes());
           }
         }
-        Ok(())
+        Ok(self)
       }
 
       #[napi]
@@ -131,7 +131,7 @@ impl Blake3Hasher {
   }
 
   #[napi]
-  pub fn update(&mut self, input: Either3<String, Buffer, f64>) -> Result<()> {
+  pub fn update(&mut self, input: Either3<String, Buffer, f64>) -> Result<&Self> {
     match input {
       Either3::A(a) => {
         self.0.update(a.as_bytes());
@@ -144,7 +144,7 @@ impl Blake3Hasher {
         self.0.update(buffer.format_finite(c).as_bytes());
       }
     }
-    Ok(())
+    Ok(self)
   }
 
   #[napi]

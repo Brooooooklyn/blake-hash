@@ -54,7 +54,7 @@ export class Blake2BHasher {
   
   constructor()
   static withParams(params: Blake2BParam): Blake2BHasher
-  update(input: string | Buffer | number): void
+  update(input: string | Buffer | number): this
   digest(format?: string | undefined | null): string
   digestBuffer(): Buffer
 }
@@ -62,7 +62,7 @@ export class Blake2BpHasher {
   
   constructor()
   static withParams(params: Blake2BpParam): Blake2BpHasher
-  update(input: string | Buffer | number): void
+  update(input: string | Buffer | number): this
   digest(format?: string | undefined | null): string
   digestBuffer(): Buffer
 }
@@ -70,7 +70,7 @@ export class Blake2SHasher {
   
   constructor()
   static withParams(params: Blake2SParam): Blake2SHasher
-  update(input: string | Buffer | number): void
+  update(input: string | Buffer | number): this
   digest(format?: string | undefined | null): string
   digestBuffer(): Buffer
 }
@@ -78,7 +78,7 @@ export class Blake2SpHasher {
   
   constructor()
   static withParams(params: Blake2SpParam): Blake2SpHasher
-  update(input: string | Buffer | number): void
+  update(input: string | Buffer | number): this
   digest(format?: string | undefined | null): string
   digestBuffer(): Buffer
 }
@@ -89,7 +89,7 @@ export class Blake3Hasher {
   static newKeyed(key: Buffer): Blake3Hasher
   static newDeriveKey(input: string): Blake3Hasher
   reset(): void
-  update(input: string | Buffer | number): void
+  update(input: string | Buffer | number): this
   digest(format?: string | undefined | null): string
   digestBuffer(): Buffer
 }

@@ -64,10 +64,10 @@
   dependencies:
     arrify "^1.0.1"
 
-"@napi-rs/cli@^2.0.0-alpha.10":
-  version "2.0.0-alpha.10"
-  resolved "https://registry.npmjs.org/@napi-rs/cli/-/cli-2.0.0-alpha.10.tgz#a5fa94f202567a9d10302c320588a74ce1546d57"
-  integrity sha512-sXG5fVr4EV3vXQhQgcUk2YAluWcWQjDFEJUunvqbQflnYR/b1nSbSVOb58frpOcYMTgGQr6ztm7uNeHAn6fdVg==
+"@napi-rs/cli@^2.0.0-alpha.11":
+  version "2.0.0-alpha.11"
+  resolved "https://registry.npmjs.org/@napi-rs/cli/-/cli-2.0.0-alpha.11.tgz#8ccb2bd401cb2902eadf678a5e99e7c82e0fac34"
+  integrity sha512-v+ve0NhKddlhnuIoRTM42MjZu8vfxlGM2nfSvk0JHBwfBJrSAIK0PCZzJ9onsWM2dY2qfSNBJyf5k75XAdPKKA==
 
 "@napi-rs/triples@^1.0.3":
   version "1.0.3"
