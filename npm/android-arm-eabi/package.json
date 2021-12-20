@@ -1,15 +1,15 @@
 {
-  "name": "@napi-rs/blake-hash-android-arm64",
+  "name": "@napi-rs/blake-hash-android-arm-eabi",
   "version": "1.3.0",
   "os": [
     "android"
   ],
   "cpu": [
-    "arm64"
+    "arm"
   ],
-  "main": "blake.android-arm64.node",
+  "main": "blake.android-arm-eabi.node",
   "files": [
-    "blake.android-arm64.node"
+    "blake.android-arm-eabi.node"
   ],
   "license": "MIT",
   "engines": {

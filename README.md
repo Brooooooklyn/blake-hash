@@ -21,6 +21,7 @@ Node.js binding for https://github.com/BLAKE3-team/BLAKE3. High performance, and
 | Linux arm64 gnu  | ✓      | ✓      | ✓      |
 | Linux arm64 musl | ✓      | ✓      | ✓      |
 | Android arm64    | ✓      | ✓      | ✓      |
+| Android armv7    | ✓      | ✓      | ✓      |
 | FreeBSD x64      | ✓      | ✓      | ✓      |
 
 ## Blake2
@@ -30,24 +31,24 @@ Support `blake2b` `blake2bp` `blake2s` `blake2sp` algorithm.
 ### Unkeyed Hash
 
 ```js
-import { Blake2BHasher } from "@napi-rs/blake-hash";
+import { Blake2BHasher } from '@napi-rs/blake-hash'
 
-const hasher = new Blake2BHasher();
-hasher.update("content to be hash");
-hasher.digest("hex"); // could also be `base64` or `url-safe-base64`
+const hasher = new Blake2BHasher()
+hasher.update('content to be hash')
+hasher.digest('hex') // could also be `base64` or `url-safe-base64`
 ```
 
 ### Keyed Hash
 
 ```js
-import { Blake2BHasher, Blake2BParam } from "@napi-rs/blake-hash";
+import { Blake2BHasher, Blake2BParam } from '@napi-rs/blake-hash'
 
-const hashParams = new Blake2BParam();
-hashParams.personal("someone@email.com");
-const hash = Blake2BHasher.withParams(hashParams);
+const hashParams = new Blake2BParam()
+hashParams.personal('someone@email.com')
+const hash = Blake2BHasher.withParams(hashParams)
 
-hash.update("your secret");
-hash.digest("hex");
+hash.update('your secret')
+hash.digest('hex')
 ```
 
 ## Blake3
@@ -57,19 +58,19 @@ hash.digest("hex");
 #### Default hash function
 
 ```js
-import { blake3 } from "@napi-rs/blake-hash";
+import { blake3 } from '@napi-rs/blake-hash'
 
-blake3("hello"); //ea8f163db38682925e4491c5e58d4bb3506ef8c14eb78a86e908c5624a67200f
+blake3('hello') //ea8f163db38682925e4491c5e58d4bb3506ef8c14eb78a86e908c5624a67200f
 ```
 
 #### Hasher
 
 ```js
-import { Blake3Hasher } from "@napi-rs/blake-hash";
+import { Blake3Hasher } from '@napi-rs/blake-hash'
 
-const hasher = new Blake3Hasher();
-hasher.update("hello");
-hasher.digest("hex"); // ea8f163db38682925e4491c5e58d4bb3506ef8c14eb78a86e908c5624a67200f
+const hasher = new Blake3Hasher()
+hasher.update('hello')
+hasher.digest('hex') // ea8f163db38682925e4491c5e58d4bb3506ef8c14eb78a86e908c5624a67200f
 ```
 
 ### `KeyedHash`
@@ -77,13 +78,13 @@ hasher.digest("hex"); // ea8f163db38682925e4491c5e58d4bb3506ef8c14eb78a86e908c56
 > Full documentation: https://docs.rs/blake3/latest/blake3/fn.keyed_hash.html
 
 ```js
-import { randomBytes } from "crypto";
+import { randomBytes } from 'crypto'
 
-import { Blake3Hasher } from "@napi-rs/blake-hash";
+import { Blake3Hasher } from '@napi-rs/blake-hash'
 
-const hasher = Blake3Hasher.newKeyed(randomBytes(32)); // The key must be 32 bytes
-hasher.update("hello");
-hasher.digest("hex"); // 9e8e05888735e59036c1ec66938f5bdb2b3933ce647918b739c23b699f1431a3
+const hasher = Blake3Hasher.newKeyed(randomBytes(32)) // The key must be 32 bytes
+hasher.update('hello')
+hasher.digest('hex') // 9e8e05888735e59036c1ec66938f5bdb2b3933ce647918b739c23b699f1431a3
 ```
 
 ### `DeriveKey`
@@ -105,13 +106,13 @@ Full documentation: https://docs.rs/blake3/latest/blake3/fn.derive_key.html
 > [argon2]: https://en.wikipedia.org/wiki/Argon2
 
 ```js
-import { Blake3Hasher } from "@napi-rs/blake-hash";
+import { Blake3Hasher } from '@napi-rs/blake-hash'
 
-const context = "BLAKE3 2021-11-10 12:13:59 example context";
+const context = 'BLAKE3 2021-11-10 12:13:59 example context'
 
-const hasher = Blake3Hasher.newDeriveKey(context);
-hasher.update("hello");
-hasher.digest("hex"); // e186adf36b0c4e421b2baa881e158a4b3b074626882a6e1dfb231aebb7e149ee
+const hasher = Blake3Hasher.newDeriveKey(context)
+hasher.update('hello')
+hasher.digest('hex') // e186adf36b0c4e421b2baa881e158a4b3b074626882a6e1dfb231aebb7e149ee
 ```
 
 ## Performance

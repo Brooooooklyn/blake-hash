@@ -8,7 +8,8 @@ import { Blake2BHasher, Blake2SHasher, Blake3Hasher } from './index.js'
 
 const BIG_IMAGE = await fs.readFile('./anime-girl.png')
 
-await b.suite('digest big file blake2b',
+await b.suite(
+  'digest big file blake2b',
   b.add('blake2b-napi', () => {
     const hash = new Blake2BHasher()
     hash.update(BIG_IMAGE)
@@ -23,7 +24,8 @@ await b.suite('digest big file blake2b',
   b.complete(),
 )
 
-await b.suite('digest big file blake2s',
+await b.suite(
+  'digest big file blake2s',
   b.add('blake2s-napi', () => {
     const hash = new Blake2SHasher()
     hash.update(BIG_IMAGE)
@@ -38,7 +40,8 @@ await b.suite('digest big file blake2s',
   b.complete(),
 )
 
-await b.suite('digest big file blake3',
+await b.suite(
+  'digest big file blake3',
   b.add('blake3-napi', () => {
     const hash = new Blake3Hasher()
     hash.update(BIG_IMAGE)

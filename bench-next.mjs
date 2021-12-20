@@ -4,7 +4,14 @@ import { promises as fs } from 'fs'
 import xxhash from '@node-rs/xxhash'
 import b from 'benny'
 
-import { Blake2BHasher, Blake2BpHasher, Blake2SpHasher, Blake2SHasher, Blake3Hasher, blake3UrlSafeBase64 } from './index.js'
+import {
+  Blake2BHasher,
+  Blake2BpHasher,
+  Blake2SpHasher,
+  Blake2SHasher,
+  Blake3Hasher,
+  blake3UrlSafeBase64,
+} from './index.js'
 
 const FIXTURE = [3, 'http://abc.xyz/logo.webp', 256, 0.9, 'image/webp']
 const BIG_IMAGE = await fs.readFile('./anime-girl.png')
@@ -56,10 +63,13 @@ function getURLSafeHashBlake3(items) {
 }
 
 function bigIntToBase64UrlSafe(bigInt) {
-  return Buffer.from(bigInt.toString(16), 'hex').toString('base64').replace(/\//g, '-')
+  return Buffer.from(bigInt.toString(16), 'hex')
+    .toString('base64')
+    .replace(/\//g, '-')
 }
 
-await b.suite('digest hash into url-safe-base64',
+await b.suite(
+  'digest hash into url-safe-base64',
   b.add('blake3', () => {
     getURLSafeHashBlake3(FIXTURE)
   }),
@@ -85,7 +95,8 @@ await b.suite('digest hash into url-safe-base64',
   b.complete(),
 )
 
-await b.suite('digest big file',
+await b.suite(
+  'digest big file',
   b.add('blake3', () => {
     const hash = new Blake3Hasher()
     hash.update(BIG_IMAGE)
