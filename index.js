@@ -210,7 +210,7 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { Blake2BParam, Blake2SParam, Blake2BpParam, Blake2SpParam, Blake2BHasher, Blake2BpHasher, Blake2SHasher, Blake2SpHasher, Blake3Hasher, blake2b, blake2bp, blake2s, blake2sp, blake3, blake3UrlSafeBase64 } = nativeBinding
+const { Blake2BParam, Blake2SParam, Blake2BpParam, Blake2SpParam, Blake2BHasher, Blake2BpHasher, Blake2SHasher, Blake2SpHasher, Blake3Hasher, blake2b, blake2bp, blake2s, blake2sp, blake3, blake3Std, blake3UrlSafeBase64 } = nativeBinding
 
 module.exports.Blake2BParam = Blake2BParam
 module.exports.Blake2SParam = Blake2SParam
@@ -226,4 +226,5 @@ module.exports.blake2bp = blake2bp
 module.exports.blake2s = blake2s
 module.exports.blake2sp = blake2sp
 module.exports.blake3 = blake3
+module.exports.blake3Std = blake3Std
 module.exports.blake3UrlSafeBase64 = blake3UrlSafeBase64

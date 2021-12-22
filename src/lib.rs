@@ -205,9 +205,23 @@ pub fn blake2sp(input: Either<String, Buffer>) -> Buffer {
 #[napi]
 fn blake3(input: Either<String, Buffer>) -> Buffer {
   match input {
-    Either::A(a) => blake3::hash(a.as_bytes()).as_bytes().as_ref().into(),
-    Either::B(b) => blake3::hash(b.as_ref()).as_bytes().as_ref().into(),
+    Either::A(a) => blake3::hash(a.as_bytes()),
+    Either::B(b) => blake3::hash(b.as_ref()),
   }
+  .as_bytes()
+  .as_ref()
+  .into()
+}
+
+#[napi]
+fn blake3_std(input: Either<String, Buffer>) -> Buffer {
+  match input {
+    Either::A(a) => blake3_std::hash(a.as_bytes()),
+    Either::B(b) => blake3_std::hash(b.as_ref()),
+  }
+  .as_bytes()
+  .as_ref()
+  .into()
 }
 
 #[napi]

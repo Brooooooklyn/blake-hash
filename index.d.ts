@@ -11,6 +11,7 @@ export function blake2bp(input: string | Buffer): Buffer
 export function blake2s(input: string | Buffer): Buffer
 export function blake2sp(input: string | Buffer): Buffer
 export function blake3(input: string | Buffer): Buffer
+export function blake3Std(input: string | Buffer): Buffer
 export function blake3UrlSafeBase64(input: string | Buffer): string
 export class Blake2BParam {
   constructor()
