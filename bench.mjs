@@ -1,12 +1,12 @@
 import { promises as fs } from 'fs'
 
 import b from 'benny'
-import { createHash as createBlake2Hash } from 'blake2'
+// import { createHash as createBlake2Hash } from 'blake2'
 import { createHash as createBlake3Hash } from 'blake3'
 
 import {
-  Blake2BHasher,
-  Blake2SHasher,
+  // Blake2BHasher,
+  // Blake2SHasher,
   Blake3Hasher,
   blake3Std,
 } from './index.js'

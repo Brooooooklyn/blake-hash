@@ -17,7 +17,7 @@ napi = "2"
 napi-derive = "2"
 ryu = "1"
 
-[target.'cfg(all(not(all(target_os = "linux", target_arch = "aarch64", target_env = "musl")), not(all(target_os = "windows", target_arch = "aarch64"))))'.dependencies]
+[target.'cfg(not(all(target_os = "linux", target_arch = "aarch64", target_env = "musl")))'.dependencies]
 mimalloc-rust = {version = "0.1"}
 
 [build-dependencies]
