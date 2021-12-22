@@ -28,7 +28,7 @@ switch (platform) {
     switch (arch) {
       case 'x64':
         localFileExisted = existsSync(
-          join(__dirname, 'blake.win32-x64-msvc.node'),
+          join(__dirname, 'blake.win32-x64-msvc.node')
         )
         try {
           if (localFileExisted) {
@@ -42,7 +42,7 @@ switch (platform) {
         break
       case 'ia32':
         localFileExisted = existsSync(
-          join(__dirname, 'blake.win32-ia32-msvc.node'),
+          join(__dirname, 'blake.win32-ia32-msvc.node')
         )
         try {
           if (localFileExisted) {
@@ -56,7 +56,7 @@ switch (platform) {
         break
       case 'arm64':
         localFileExisted = existsSync(
-          join(__dirname, 'blake.win32-arm64-msvc.node'),
+          join(__dirname, 'blake.win32-arm64-msvc.node')
         )
         try {
           if (localFileExisted) {
@@ -88,7 +88,7 @@ switch (platform) {
         break
       case 'arm64':
         localFileExisted = existsSync(
-          join(__dirname, 'blake.darwin-arm64.node'),
+          join(__dirname, 'blake.darwin-arm64.node')
         )
         try {
           if (localFileExisted) {
@@ -125,7 +125,7 @@ switch (platform) {
         isMusl = readFileSync('/usr/bin/ldd', 'utf8').includes('musl')
         if (isMusl) {
           localFileExisted = existsSync(
-            join(__dirname, 'blake.linux-x64-musl.node'),
+            join(__dirname, 'blake.linux-x64-musl.node')
           )
           try {
             if (localFileExisted) {
@@ -138,7 +138,7 @@ switch (platform) {
           }
         } else {
           localFileExisted = existsSync(
-            join(__dirname, 'blake.linux-x64-gnu.node'),
+            join(__dirname, 'blake.linux-x64-gnu.node')
           )
           try {
             if (localFileExisted) {
@@ -155,7 +155,7 @@ switch (platform) {
         isMusl = readFileSync('/usr/bin/ldd', 'utf8').includes('musl')
         if (isMusl) {
           localFileExisted = existsSync(
-            join(__dirname, 'blake.linux-arm64-musl.node'),
+            join(__dirname, 'blake.linux-arm64-musl.node')
           )
           try {
             if (localFileExisted) {
@@ -168,7 +168,7 @@ switch (platform) {
           }
         } else {
           localFileExisted = existsSync(
-            join(__dirname, 'blake.linux-arm64-gnu.node'),
+            join(__dirname, 'blake.linux-arm64-gnu.node')
           )
           try {
             if (localFileExisted) {
@@ -183,7 +183,7 @@ switch (platform) {
         break
       case 'arm':
         localFileExisted = existsSync(
-          join(__dirname, 'blake.linux-arm-gnueabihf.node'),
+          join(__dirname, 'blake.linux-arm-gnueabihf.node')
         )
         try {
           if (localFileExisted) {
@@ -210,23 +210,7 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const {
-  Blake2BParam,
-  Blake2SParam,
-  Blake2BpParam,
-  Blake2SpParam,
-  Blake2BHasher,
-  Blake2BpHasher,
-  Blake2SHasher,
-  Blake2SpHasher,
-  Blake3Hasher,
-  blake2b,
-  blake2bp,
-  blake2s,
-  blake2sp,
-  blake3,
-  blake3UrlSafeBase64,
-} = nativeBinding
+const { Blake2BParam, Blake2SParam, Blake2BpParam, Blake2SpParam, Blake2BHasher, Blake2BpHasher, Blake2SHasher, Blake2SpHasher, Blake3Hasher, blake2b, blake2bp, blake2s, blake2sp, blake3, blake3UrlSafeBase64 } = nativeBinding
 
 module.exports.Blake2BParam = Blake2BParam
 module.exports.Blake2SParam = Blake2SParam
