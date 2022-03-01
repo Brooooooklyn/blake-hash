@@ -31,7 +31,7 @@
     "@node-rs/xxhash": "^1.0.1",
     "@swc-node/register": "^1.4.2",
     "@types/node": "^17.0.1",
-    "ava": "^3.15.0",
+    "ava": "^4.0.0",
     "benny": "^3.7.1",
     "blake2": "^4.0.2",
     "blake3": "^2.1.7",
