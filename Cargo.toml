@@ -20,7 +20,7 @@ ryu = "1"
 mimalloc-rust = {version = "0.1"}
 
 [build-dependencies]
-napi-build = "1"
+napi-build = "2"
 
 [profile.release]
 codegen-units = 1
