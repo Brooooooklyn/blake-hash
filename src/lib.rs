@@ -1,11 +1,10 @@
+#![deny(clippy::all)]
+#![allow(clippy::new_without_default)]
+
 use napi::bindgen_prelude::*;
 use napi_derive::napi;
 
-#[cfg(all(
-  not(debug_assertions),
-  not(all(target_os = "windows", target_arch = "aarch64")),
-  not(all(target_os = "linux", target_arch = "aarch64", target_env = "musl")),
-))]
+#[cfg(not(all(target_os = "linux", target_arch = "aarch64", target_env = "musl")))]
 #[global_allocator]
 static ALLOC: mimalloc_rust::GlobalMiMalloc = mimalloc_rust::GlobalMiMalloc;
 
@@ -67,19 +66,19 @@ macro_rules! impl_hasher {
 
 #[napi]
 #[repr(transparent)]
-struct Blake2bHasher(blake2b_simd::State);
+pub struct Blake2bHasher(blake2b_simd::State);
 
 #[napi]
 #[repr(transparent)]
-struct Blake2bpHasher(blake2b_simd::blake2bp::State);
+pub struct Blake2bpHasher(blake2b_simd::blake2bp::State);
 
 #[napi]
 #[repr(transparent)]
-struct Blake2sHasher(blake2s_simd::State);
+pub struct Blake2sHasher(blake2s_simd::State);
 
 #[napi]
 #[repr(transparent)]
-struct Blake2spHasher(blake2s_simd::blake2sp::State);
+pub struct Blake2spHasher(blake2s_simd::blake2sp::State);
 
 impl_hasher!(Blake2bHasher, blake2b_simd::State::new(), Blake2bParam);
 impl_hasher!(
@@ -96,7 +95,7 @@ impl_hasher!(
 
 #[napi]
 #[repr(transparent)]
-struct Blake3Hasher(blake3::Hasher);
+pub struct Blake3Hasher(blake3::Hasher);
 
 #[napi]
 impl Blake3Hasher {
@@ -203,7 +202,7 @@ pub fn blake2sp(input: Either<String, Buffer>) -> Buffer {
 }
 
 #[napi]
-fn blake3(input: Either<String, Buffer>) -> Buffer {
+pub fn blake3(input: Either<String, Buffer>) -> Buffer {
   match input {
     Either::A(a) => blake3::hash(a.as_bytes()).as_bytes().as_ref().into(),
     Either::B(b) => blake3::hash(b.as_ref()).as_bytes().as_ref().into(),
@@ -211,7 +210,7 @@ fn blake3(input: Either<String, Buffer>) -> Buffer {
 }
 
 #[napi]
-fn blake3_url_safe_base64(input: Either<String, Buffer>) -> String {
+pub fn blake3_url_safe_base64(input: Either<String, Buffer>) -> String {
   let o = match input {
     Either::A(a) => blake3::hash(a.as_bytes()),
     Either::B(b) => blake3::hash(b.as_ref()),
