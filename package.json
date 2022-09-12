@@ -44,6 +44,7 @@
       "ts"
     ],
     "workerThreads": false,
+    "timeout": "2m",
     "require": [
       "@swc-node/register"
     ],
