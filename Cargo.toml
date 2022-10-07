@@ -16,8 +16,11 @@ napi = "2"
 napi-derive = "2"
 ryu = "1"
 
-[target.'cfg(not(all(target_os = "linux", target_arch = "aarch64", target_env = "musl")))'.dependencies]
-mimalloc-rust = { version = "0.2" }
+[target.'cfg(not(target_os = "linux"))'.dependencies]
+mimalloc-rust = "0.2"
+
+[target.'cfg(all(target_os = "linux", not(all(target_env = "musl", target_arch = "aarch64"))))'.dependencies]
+mimalloc-rust = { version = "0.2", features = ["local-dynamic-tls"] }
 
 [build-dependencies]
 napi-build = "2"
