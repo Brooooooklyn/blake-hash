@@ -34,7 +34,7 @@
     "benny": "^3.7.1",
     "blake2": "^4.1.1",
     "blake3": "^2.1.7",
-    "esbuild": "^0.15.10",
+    "esbuild": "^0.16.0",
     "typescript": "^4.8.4"
   },
   "engines": {
