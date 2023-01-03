@@ -51,10 +51,18 @@ macro_rules! impl_hasher {
         match format.unwrap_or_else(|| "hex".to_owned()).as_str() {
           "hex" => Ok(self.0.finalize().to_hex().to_string()),
           "base64" => Ok(base64::encode(self.0.finalize().as_ref())),
-          "base64-url-safe" => Ok(base64::encode_config(
-            self.0.finalize().as_ref(),
-            base64::URL_SAFE,
-          )),
+          "base64-url-safe" => {
+            let mut output = String::new();
+            base64::encode_engine_string(
+              self.0.finalize().as_ref(),
+              &mut output,
+              &base64::engine::fast_portable::FastPortable::from(
+                &base64::alphabet::URL_SAFE,
+                base64::engine::fast_portable::PAD,
+              ),
+            );
+            Ok(output)
+          }
           _ => Err(Error::new(Status::InvalidArg, "Invalid format".to_owned())),
         }
       }
@@ -154,10 +162,18 @@ impl Blake3Hasher {
     match format.unwrap_or_else(|| "hex".to_owned()).as_str() {
       "hex" => Ok(self.0.finalize().to_hex().to_string()),
       "base64" => Ok(base64::encode(self.0.finalize().as_bytes())),
-      "base64-url-safe" => Ok(base64::encode_config(
-        self.0.finalize().as_bytes(),
-        base64::URL_SAFE,
-      )),
+      "base64-url-safe" => {
+        let mut output = String::new();
+        base64::encode_engine_string(
+          self.0.finalize().as_bytes(),
+          &mut output,
+          &base64::engine::fast_portable::FastPortable::from(
+            &base64::alphabet::URL_SAFE,
+            base64::engine::fast_portable::PAD,
+          ),
+        );
+        Ok(output)
+      }
       _ => Err(Error::new(Status::InvalidArg, "Invalid format".to_owned())),
     }
   }
@@ -218,5 +234,14 @@ pub fn blake3_url_safe_base64(input: Either<String, Buffer>) -> String {
     Either::A(a) => blake3::hash(a.as_bytes()),
     Either::B(b) => blake3::hash(b.as_ref()),
   };
-  base64::encode_config(o.as_bytes(), base64::URL_SAFE)
+  let mut output = String::new();
+  base64::encode_engine_string(
+    o.as_bytes(),
+    &mut output,
+    &base64::engine::fast_portable::FastPortable::from(
+      &base64::alphabet::URL_SAFE,
+      base64::engine::fast_portable::PAD,
+    ),
+  );
+  output
 }

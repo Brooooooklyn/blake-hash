@@ -7,7 +7,7 @@ version = "0.0.0"
 crate-type = ["cdylib"]
 
 [dependencies]
-base64 = "0.13"
+base64 = "0.20"
 blake2b_simd = "1.0"
 blake2s_simd = "1.0"
 blake3 = "1"
