@@ -1,7 +1,8 @@
 #![deny(clippy::all)]
 #![allow(clippy::new_without_default)]
 
-use napi::bindgen_prelude::*;
+use base64::Engine;
+use napi::{bindgen_prelude::*, JsBuffer};
 use napi_derive::napi;
 
 #[cfg(all(
@@ -50,18 +51,15 @@ macro_rules! impl_hasher {
       pub fn digest(&mut self, format: Option<String>) -> Result<String> {
         match format.unwrap_or_else(|| "hex".to_owned()).as_str() {
           "hex" => Ok(self.0.finalize().to_hex().to_string()),
-          "base64" => Ok(base64::encode(self.0.finalize().as_ref())),
+          "base64" => {
+            Ok(base64::engine::general_purpose::STANDARD.encode(self.0.finalize().as_bytes()))
+          }
           "base64-url-safe" => {
-            let mut output = String::new();
-            base64::encode_engine_string(
-              self.0.finalize().as_ref(),
-              &mut output,
-              &base64::engine::fast_portable::FastPortable::from(
-                &base64::alphabet::URL_SAFE,
-                base64::engine::fast_portable::PAD,
-              ),
+            let engine = base64::engine::general_purpose::GeneralPurpose::new(
+              &base64::alphabet::URL_SAFE,
+              base64::engine::general_purpose::PAD,
             );
-            Ok(output)
+            Ok(engine.encode(self.0.finalize().as_ref()))
           }
           _ => Err(Error::new(Status::InvalidArg, "Invalid format".to_owned())),
         }
@@ -111,10 +109,12 @@ pub struct Blake3Hasher(blake3::Hasher);
 #[napi]
 impl Blake3Hasher {
   #[napi]
-  pub fn derive_key(context: String, key_material: Buffer) -> Buffer {
-    blake3::derive_key(context.as_str(), key_material.as_ref())
-      .as_ref()
-      .into()
+  pub fn derive_key(context: String, key_material: JsBuffer) -> Result<Buffer> {
+    Ok(
+      blake3::derive_key(context.as_str(), key_material.into_value()?.as_ref())
+        .as_ref()
+        .into(),
+    )
   }
 
   #[napi(constructor)]
@@ -141,13 +141,13 @@ impl Blake3Hasher {
   }
 
   #[napi]
-  pub fn update(&mut self, input: Either3<String, Buffer, f64>) -> Result<&Self> {
+  pub fn update(&mut self, input: Either3<String, JsBuffer, f64>) -> Result<&Self> {
     match input {
       Either3::A(a) => {
         self.0.update(a.as_bytes());
       }
       Either3::B(b) => {
-        self.0.update(b.as_ref());
+        self.0.update(b.into_value()?.as_ref());
       }
       Either3::C(c) => {
         let mut buffer = ryu::Buffer::new();
@@ -161,19 +161,16 @@ impl Blake3Hasher {
   pub fn digest(&mut self, format: Option<String>) -> Result<String> {
     match format.unwrap_or_else(|| "hex".to_owned()).as_str() {
       "hex" => Ok(self.0.finalize().to_hex().to_string()),
-      "base64" => Ok(base64::encode(self.0.finalize().as_bytes())),
-      "base64-url-safe" => {
-        let mut output = String::new();
-        base64::encode_engine_string(
-          self.0.finalize().as_bytes(),
-          &mut output,
-          &base64::engine::fast_portable::FastPortable::from(
-            &base64::alphabet::URL_SAFE,
-            base64::engine::fast_portable::PAD,
-          ),
-        );
-        Ok(output)
+      "base64" => {
+        Ok(base64::engine::general_purpose::STANDARD.encode(self.0.finalize().as_bytes()))
       }
+      "base64-url-safe" => Ok(
+        base64::engine::general_purpose::GeneralPurpose::new(
+          &base64::alphabet::URL_SAFE,
+          base64::engine::general_purpose::PAD,
+        )
+        .encode(self.0.finalize().as_bytes()),
+      ),
       _ => Err(Error::new(Status::InvalidArg, "Invalid format".to_owned())),
     }
   }
@@ -185,63 +182,69 @@ impl Blake3Hasher {
 }
 
 #[napi(js_name = "blake2b")]
-pub fn blake2b(input: Either<String, Buffer>) -> Buffer {
-  match input {
+pub fn blake2b(input: Either<String, JsBuffer>) -> Result<Buffer> {
+  Ok(match input {
     Either::A(a) => blake2b_simd::blake2b(a.as_bytes()).as_ref().into(),
-    Either::B(b) => blake2b_simd::blake2b(b.as_ref()).as_ref().into(),
-  }
+    Either::B(b) => blake2b_simd::blake2b(b.into_value()?.as_ref())
+      .as_ref()
+      .into(),
+  })
 }
 
 #[napi(js_name = "blake2bp")]
-pub fn blake2bp(input: Either<String, Buffer>) -> Buffer {
-  match input {
+pub fn blake2bp(input: Either<String, JsBuffer>) -> Result<Buffer> {
+  Ok(match input {
     Either::A(a) => blake2b_simd::blake2bp::blake2bp(a.as_bytes())
       .as_ref()
       .into(),
-    Either::B(b) => blake2b_simd::blake2bp::blake2bp(b.as_ref()).as_ref().into(),
-  }
+    Either::B(b) => blake2b_simd::blake2bp::blake2bp(b.into_value()?.as_ref())
+      .as_ref()
+      .into(),
+  })
 }
 
 #[napi(js_name = "blake2s")]
-pub fn blake2s(input: Either<String, Buffer>) -> Buffer {
-  match input {
+pub fn blake2s(input: Either<String, JsBuffer>) -> Result<Buffer> {
+  Ok(match input {
     Either::A(a) => blake2s_simd::blake2s(a.as_bytes()).as_ref().into(),
-    Either::B(b) => blake2s_simd::blake2s(b.as_ref()).as_ref().into(),
-  }
+    Either::B(b) => blake2s_simd::blake2s(b.into_value()?.as_ref())
+      .as_ref()
+      .into(),
+  })
 }
 
 #[napi(js_name = "blake2sp")]
-pub fn blake2sp(input: Either<String, Buffer>) -> Buffer {
-  match input {
+pub fn blake2sp(input: Either<String, JsBuffer>) -> Result<Buffer> {
+  Ok(match input {
     Either::A(a) => blake2s_simd::blake2sp::blake2sp(a.as_bytes())
       .as_ref()
       .into(),
-    Either::B(b) => blake2s_simd::blake2sp::blake2sp(b.as_ref()).as_ref().into(),
-  }
+    Either::B(b) => blake2s_simd::blake2sp::blake2sp(b.into_value()?.as_ref())
+      .as_ref()
+      .into(),
+  })
 }
 
 #[napi]
-pub fn blake3(input: Either<String, Buffer>) -> Buffer {
-  match input {
+pub fn blake3(input: Either<String, JsBuffer>) -> Result<Buffer> {
+  Ok(match input {
     Either::A(a) => blake3::hash(a.as_bytes()).as_bytes().as_ref().into(),
-    Either::B(b) => blake3::hash(b.as_ref()).as_bytes().as_ref().into(),
-  }
+    Either::B(b) => blake3::hash(b.into_value()?.as_ref())
+      .as_bytes()
+      .as_ref()
+      .into(),
+  })
 }
 
 #[napi]
-pub fn blake3_url_safe_base64(input: Either<String, Buffer>) -> String {
+pub fn blake3_url_safe_base64(input: Either<String, JsBuffer>) -> Result<String> {
   let o = match input {
     Either::A(a) => blake3::hash(a.as_bytes()),
-    Either::B(b) => blake3::hash(b.as_ref()),
+    Either::B(b) => blake3::hash(b.into_value()?.as_ref()),
   };
-  let mut output = String::new();
-  base64::encode_engine_string(
-    o.as_bytes(),
-    &mut output,
-    &base64::engine::fast_portable::FastPortable::from(
-      &base64::alphabet::URL_SAFE,
-      base64::engine::fast_portable::PAD,
-    ),
+  let engine = base64::engine::general_purpose::GeneralPurpose::new(
+    &base64::alphabet::URL_SAFE,
+    base64::engine::general_purpose::PAD,
   );
-  output
+  Ok(engine.encode(o.as_bytes()))
 }
