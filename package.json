@@ -24,18 +24,18 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@napi-rs/cli": "^2.12.0",
-    "@node-rs/deno-lint": "^1.14.0",
-    "@node-rs/xxhash": "^1.2.1",
-    "@swc-node/register": "^1.5.4",
-    "@swc/core": "^1.3.5",
-    "@types/node": "^20.0.0",
-    "ava": "^5.0.0",
+    "@napi-rs/cli": "^2.16.5",
+    "@node-rs/deno-lint": "^1.17.3",
+    "@node-rs/xxhash": "^1.4.2",
+    "@swc-node/register": "^1.6.8",
+    "@swc/core": "^1.3.96",
+    "@types/node": "^20.9.0",
+    "ava": "^5.3.1",
     "benny": "^3.7.1",
     "blake2": "^5.0.0",
-    "blake3": "^2.1.7",
-    "esbuild": "^0.19.0",
-    "typescript": "^5.0.0"
+    "blake3": "^3.0.0",
+    "esbuild": "^0.19.5",
+    "typescript": "^5.2.2"
   },
   "engines": {
     "node": ">= 10"
@@ -73,5 +73,10 @@
     "type": "github",
     "url": "https://github.com/sponsors/Brooooooklyn"
   },
-  "packageManager": "yarn@3.6.4"
+  "packageManager": "yarn@4.0.1",
+  "resolutions": {
+    "blake3-wasm@npm:2.1.7": "^3.0.0",
+    "@c4312/blake3-native@npm:2.1.7": "^3.0.0",
+    "@c4312/blake3-internal@npm:2.1.7": "^3.0.0"
+  }
 }
