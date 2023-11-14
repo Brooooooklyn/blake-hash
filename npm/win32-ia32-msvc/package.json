@@ -16,7 +16,7 @@
     "node": ">= 10"
   },
   "repository": {
-    "url": "git@github.com:Brooooooklyn/blake-hash.git",
+    "url": "git+ssh://git@github.com/Brooooooklyn/blake-hash.git",
     "type": "git"
   }
 }
