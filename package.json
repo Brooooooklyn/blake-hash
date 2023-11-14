@@ -73,6 +73,10 @@
     "type": "github",
     "url": "https://github.com/sponsors/Brooooooklyn"
   },
+  "repository": {
+    "url": "git@github.com:Brooooooklyn/blake-hash.git",
+    "type": "git"
+  },
   "packageManager": "yarn@4.0.1",
   "resolutions": {
     "blake3-wasm@npm:2.1.7": "^3.0.0",
