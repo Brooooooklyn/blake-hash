@@ -182,9 +182,9 @@ dependencies = [
 
 [[package]]
 name = "napi"
-version = "2.15.0"
+version = "2.15.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "efbf98e1bcb85cc441bbf7cdfb11070d2537a100e2697d75397b2584c32492d1"
+checksum = "02bd92040344a83763379b122f4e714932ccaa700439e647f1e90481dd1999cb"
 dependencies = [
  "bitflags",
  "ctor",
@@ -195,15 +195,15 @@ dependencies = [
 
 [[package]]
 name = "napi-build"
-version = "2.1.0"
+version = "2.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d4b4532cf86bfef556348ac65e561e3123879f0e7566cca6d43a6ff5326f13df"
+checksum = "60aa698bd7ea7cc6ac4c7f0115d23bcd6ccbb454bc79e00dbfcf87bce088b11b"
 
 [[package]]
 name = "napi-derive"
-version = "2.15.0"
+version = "2.15.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7622f0dbe0968af2dacdd64870eee6dee94f93c989c841f1ad8f300cf1abd514"
+checksum = "bef56a31cf81a1d183aa991c85128e6f27c312b72227e506b1854068c2ac7d53"
 dependencies = [
  "cfg-if",
  "convert_case",
@@ -215,9 +215,9 @@ dependencies = [
 
 [[package]]
 name = "napi-derive-backend"
-version = "1.0.59"
+version = "1.0.61"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8ec514d65fce18a959be55e7f683ac89c6cb850fb59b09e25ab777fd5a4a8d9e"
+checksum = "d03b8f403a37007cad225039fc0323b961bb40d697eea744140920ebb689ff1d"
 dependencies = [
  "convert_case",
  "once_cell",
@@ -304,9 +304,9 @@ checksum = "b97ed7a9823b74f99c7742f5336af7be5ecd3eeafcb1507d1fa93347b1d589b0"
 
 [[package]]
 name = "syn"
-version = "2.0.48"
+version = "2.0.49"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0f3531638e407dfc0814761abb7c00a5b54992b849452a0646b7f65c9f770f3f"
+checksum = "915aea9e586f80826ee59f8453c1101f9d1c4b3964cd2460185ee8e299ada496"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -321,9 +321,9 @@ checksum = "3354b9ac3fae1ff6755cb6db53683adb661634f67557942dea4facebec0fee4b"
 
 [[package]]
 name = "unicode-segmentation"
-version = "1.10.1"
+version = "1.11.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1dd624098567895118886609431a7c3b8f516e41d30e0643f03d94592a147e36"
+checksum = "d4c87d22b6e3f4a18d4d40ef354e97c90fcb14dd91d7dc0aa9d8a1172ebf7202"
 
 [[package]]
 name = "windows-sys"
