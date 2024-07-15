@@ -224,14 +224,72 @@ switch (platform) {
         }
         break
       case 'arm':
+        if (isMusl()) {
+          localFileExisted = existsSync(
+            join(__dirname, 'blake.linux-arm-musleabihf.node')
+          )
+          try {
+            if (localFileExisted) {
+              nativeBinding = require('./blake.linux-arm-musleabihf.node')
+            } else {
+              nativeBinding = require('@napi-rs/blake-hash-linux-arm-musleabihf')
+            }
+          } catch (e) {
+            loadError = e
+          }
+        } else {
+          localFileExisted = existsSync(
+            join(__dirname, 'blake.linux-arm-gnueabihf.node')
+          )
+          try {
+            if (localFileExisted) {
+              nativeBinding = require('./blake.linux-arm-gnueabihf.node')
+            } else {
+              nativeBinding = require('@napi-rs/blake-hash-linux-arm-gnueabihf')
+            }
+          } catch (e) {
+            loadError = e
+          }
+        }
+        break
+      case 'riscv64':
+        if (isMusl()) {
+          localFileExisted = existsSync(
+            join(__dirname, 'blake.linux-riscv64-musl.node')
+          )
+          try {
+            if (localFileExisted) {
+              nativeBinding = require('./blake.linux-riscv64-musl.node')
+            } else {
+              nativeBinding = require('@napi-rs/blake-hash-linux-riscv64-musl')
+            }
+          } catch (e) {
+            loadError = e
+          }
+        } else {
+          localFileExisted = existsSync(
+            join(__dirname, 'blake.linux-riscv64-gnu.node')
+          )
+          try {
+            if (localFileExisted) {
+              nativeBinding = require('./blake.linux-riscv64-gnu.node')
+            } else {
+              nativeBinding = require('@napi-rs/blake-hash-linux-riscv64-gnu')
+            }
+          } catch (e) {
+            loadError = e
+          }
+        }
+        break
+      case 's390x':
         localFileExisted = existsSync(
-          join(__dirname, 'blake.linux-arm-gnueabihf.node')
+          join(__dirname, 'blake.linux-s390x-gnu.node')
         )
         try {
           if (localFileExisted) {
-            nativeBinding = require('./blake.linux-arm-gnueabihf.node')
+            nativeBinding = require('./blake.linux-s390x-gnu.node')
           } else {
-            nativeBinding = require('@napi-rs/blake-hash-linux-arm-gnueabihf')
+            nativeBinding = require('@napi-rs/blake-hash-linux-s390x-gnu')
           }
         } catch (e) {
           loadError = e

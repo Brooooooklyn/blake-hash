@@ -5,12 +5,9 @@ use base64::Engine;
 use napi::{bindgen_prelude::*, JsBuffer};
 use napi_derive::napi;
 
-#[cfg(all(
-  not(all(target_os = "linux", target_env = "musl", target_arch = "aarch64")),
-  not(debug_assertions)
-))]
+#[cfg(not(target_family = "wasm"))]
 #[global_allocator]
-static ALLOC: mimalloc_rust::GlobalMiMalloc = mimalloc_rust::GlobalMiMalloc;
+static ALLOC: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
 mod blake2_params;
 
