@@ -13,7 +13,7 @@ blake2s_simd = "1.0"
 blake3 = "1"
 hex = "0.4"
 napi = "2"
-napi-derive = "2"
+napi-derive = "3"
 ryu = "1"
 
 [target.'cfg(all(not(target_os = "linux"), not(target_family = "wasm")))'.dependencies]
