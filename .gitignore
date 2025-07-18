@@ -137,3 +137,5 @@ target
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+npm/

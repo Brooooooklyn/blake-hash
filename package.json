@@ -4,19 +4,23 @@
   "main": "index.js",
   "types": "index.d.ts",
   "napi": {
-    "name": "blake",
-    "triples": {
-      "additional": [
-        "aarch64-apple-darwin",
-        "aarch64-linux-android",
-        "aarch64-unknown-linux-gnu",
-        "aarch64-unknown-linux-musl",
-        "aarch64-pc-windows-msvc",
-        "x86_64-unknown-linux-musl",
-        "x86_64-unknown-freebsd",
-        "i686-pc-windows-msvc"
-      ]
-    }
+    "binaryName": "blake",
+    "targets": [
+      "x86_64-apple-darwin",
+      "x86_64-pc-windows-msvc",
+      "x86_64-unknown-linux-gnu",
+      "aarch64-apple-darwin",
+      "aarch64-linux-android",
+      "aarch64-unknown-linux-gnu",
+      "aarch64-unknown-linux-musl",
+      "aarch64-pc-windows-msvc",
+      "armv7-unknown-linux-gnueabihf",
+      "x86_64-unknown-linux-musl",
+      "x86_64-unknown-freebsd",
+      "i686-pc-windows-msvc",
+      "powerpc64le-unknown-linux-gnu",
+      "s390x-unknown-linux-gnu"
+    ]
   },
   "files": [
     "index.js",
@@ -26,29 +30,29 @@
   "devDependencies": {
     "@napi-rs/cli": "^3.0.0",
     "@node-rs/deno-lint": "^1.20.4",
-    "@node-rs/xxhash": "^1.7.3",
-    "@swc-node/register": "^1.10.7",
-    "@swc/core": "^1.6.13",
-    "@types/node": "^22.0.0",
-    "ava": "^6.1.3",
+    "@node-rs/xxhash": "^1.7.6",
+    "@oxc-node/core": "^0.0.29",
+    "@types/node": "^24.0.14",
+    "ava": "^6.4.1",
     "benny": "^3.7.1",
     "blake2": "^5.0.0",
     "blake3": "^3.0.0",
-    "esbuild": "^0.25.0",
-    "typescript": "^5.5.3"
+    "esbuild": "^0.25.6",
+    "typescript": "^5.8.3"
   },
   "engines": {
     "node": ">= 10"
   },
   "ava": {
-    "extensions": [
-      "ts"
+    "nodeArguments": [
+      "--import",
+      "@oxc-node/core/register"
     ],
+    "extensions": {
+      "ts": "module"
+    },
     "workerThreads": false,
     "timeout": "2m",
-    "require": [
-      "@swc-node/register"
-    ],
     "files": [
       "__test__/**/*.spec.ts"
     ]
