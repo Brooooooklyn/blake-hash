@@ -235,7 +235,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --mode=skip-build
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: bindings-${{ matrix.settings.target }}
           path: .
@@ -299,7 +299,7 @@ jobs:
           yarn config set --json supportedArchitectures.libc "[\"current\", \"glibc\", \"musl\"]"
           yarn install
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: bindings-${{ matrix.target }}
           path: .
@@ -338,7 +338,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --mode=skip-build
       - name: Download all artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           path: artifacts
       - name: Create npm dirs
