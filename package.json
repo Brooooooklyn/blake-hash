@@ -81,7 +81,7 @@
     "url": "git+ssh://git@github.com/Brooooooklyn/blake-hash.git",
     "type": "git"
   },
-  "packageManager": "yarn@4.10.3",
+  "packageManager": "yarn@4.11.0",
   "resolutions": {
     "blake3-wasm@npm:2.1.7": "^3.0.0",
     "@c4312/blake3-native@npm:2.1.7": "^3.0.0",
