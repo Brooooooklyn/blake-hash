@@ -8,21 +8,22 @@ Node.js binding for https://github.com/BLAKE3-team/BLAKE3. High performance, and
 
 ## Support matrix
 
-|                  | node12 | node14 | node16 |
-| ---------------- | ------ | ------ | ------ |
-| Windows x64      | ✓      | ✓      | ✓      |
-| Windows x32      | ✓      | ✓      | ✓      |
-| Windows arm64    | ✓      | ✓      | ✓      |
-| macOS x64        | ✓      | ✓      | ✓      |
-| macOS arm64      | ✓      | ✓      | ✓      |
-| Linux x64 gnu    | ✓      | ✓      | ✓      |
-| Linux x64 musl   | ✓      | ✓      | ✓      |
-| Linux arm gnu    | ✓      | ✓      | ✓      |
-| Linux arm64 gnu  | ✓      | ✓      | ✓      |
-| Linux arm64 musl | ✓      | ✓      | ✓      |
-| Android arm64    | ✓      | ✓      | ✓      |
-| Android armv7    | ✓      | ✓      | ✓      |
-| FreeBSD x64      | ✓      | ✓      | ✓      |
+|                       | node18 | node20 | node22 | node24 |
+| --------------------- | ------ | ------ | ------ | ------ |
+| Windows x64           | ✓      | ✓      | ✓      | ✓      |
+| Windows ia32          | ✓      | ✓      | ✓      | ✓      |
+| Windows arm64         | ✓      | ✓      | ✓      | ✓      |
+| macOS x64             | ✓      | ✓      | ✓      | ✓      |
+| macOS arm64           | ✓      | ✓      | ✓      | ✓      |
+| Linux x64 gnu         | ✓      | ✓      | ✓      | ✓      |
+| Linux x64 musl        | ✓      | ✓      | ✓      | ✓      |
+| Linux arm gnu         | ✓      | ✓      | ✓      | ✓      |
+| Linux arm64 gnu       | ✓      | ✓      | ✓      | ✓      |
+| Linux arm64 musl      | ✓      | ✓      | ✓      | ✓      |
+| Linux ppc64le gnu     | ✓      | ✓      | ✓      | ✓      |
+| Linux s390x gnu       | ✓      | ✓      | ✓      | ✓      |
+| Android arm64         | ✓      | ✓      | ✓      | ✓      |
+| FreeBSD x64           | ✓      | ✓      | ✓      | ✓      |
 
 ## Blake2
 
