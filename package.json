@@ -28,17 +28,17 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@napi-rs/cli": "^3.0.0",
+    "@napi-rs/cli": "^3.5.0",
     "@node-rs/deno-lint": "^1.20.4",
     "@node-rs/xxhash": "^1.7.6",
     "@oxc-node/core": "^0.0.35",
-    "@types/node": "^24.0.14",
+    "@types/node": "^24.10.2",
     "ava": "^6.4.1",
     "benny": "^3.7.1",
     "blake2": "^5.0.0",
     "blake3": "^3.0.0",
-    "esbuild": "^0.27.0",
-    "typescript": "^5.8.3"
+    "esbuild": "^0.27.1",
+    "typescript": "^5.9.3"
   },
   "engines": {
     "node": ">= 10"
@@ -63,6 +63,7 @@
     "build:debug": "napi build --platform",
     "lint": "denolint .",
     "prepublishOnly": "napi prepublish -t npm && esbuild --minify --outfile=index.js --allow-overwrite index.js",
+    "preversion": "napi build --platform && git add .",
     "version": "napi version",
     "test": "ava"
   },
