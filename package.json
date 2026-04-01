@@ -31,7 +31,7 @@
     "@napi-rs/cli": "^3.5.0",
     "@node-rs/deno-lint": "^1.20.4",
     "@node-rs/xxhash": "^1.7.6",
-    "@oxc-node/core": "^0.0.35",
+    "@oxc-node/core": "^0.1.0",
     "@types/node": "^24.10.2",
     "ava": "^7.0.0",
     "benny": "^3.7.1",
