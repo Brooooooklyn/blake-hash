@@ -41,16 +41,16 @@
     "typescript": "^6.0.0"
   },
   "engines": {
-    "node": ">= 10"
+    "node": ">= 22"
   },
   "ava": {
     "nodeArguments": [
       "--import",
       "@oxc-node/core/register"
     ],
-    "extensions": {
-      "ts": "module"
-    },
+    "extensions": [
+      "ts"
+    ],
     "workerThreads": false,
     "timeout": "2m",
     "files": [
