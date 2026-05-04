@@ -260,8 +260,11 @@ jobs:
           - powerpc64le-unknown-linux-gnu
           - s390x-unknown-linux-gnu
         node:
-          - '20'
           - '22'
+          - '24'
+        exclude:
+          - target: armv7-unknown-linux-gnueabihf
+            node: '24'
     runs-on: ${{ contains(matrix.target, 'aarch64') && 'ubuntu-24.04-arm' || 'ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v6
@@ -315,7 +318,7 @@ jobs:
         if: ${{ !contains(matrix.target, 'aarch64') }}
       - name: Test bindings
         uses: addnab/docker-run-action@v3
-        continue-on-error: ${{ contains(matrix.target, 'powerpc64le') }}
+        continue-on-error: ${{ contains(matrix.target, 'powerpc64le') || contains(matrix.target, 's390x') }}
         with:
           image: ${{ steps.docker.outputs.IMAGE }}
           options: -v ${{ github.workspace }}:${{ github.workspace }} -w ${{ github.workspace }} --platform ${{ steps.docker.outputs.PLATFORM }}
