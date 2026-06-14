@@ -6,6 +6,8 @@ export declare class Blake2BHasher {
   update(input: string | Buffer | number): this
   digest(format?: string | undefined | null): string
   digestBuffer(): Buffer
+  digestStream(stream: ReadableStream<Uint8Array>, format?: string | undefined | null): Promise<string>
+  digestStreamBuffer(stream: ReadableStream<Uint8Array>): Promise<Buffer>
 }
 export type Blake2bHasher = Blake2BHasher
 
@@ -48,6 +50,8 @@ export declare class Blake2BpHasher {
   update(input: string | Buffer | number): this
   digest(format?: string | undefined | null): string
   digestBuffer(): Buffer
+  digestStream(stream: ReadableStream<Uint8Array>, format?: string | undefined | null): Promise<string>
+  digestStreamBuffer(stream: ReadableStream<Uint8Array>): Promise<Buffer>
 }
 export type Blake2bpHasher = Blake2BpHasher
 
@@ -64,6 +68,8 @@ export declare class Blake2SHasher {
   update(input: string | Buffer | number): this
   digest(format?: string | undefined | null): string
   digestBuffer(): Buffer
+  digestStream(stream: ReadableStream<Uint8Array>, format?: string | undefined | null): Promise<string>
+  digestStreamBuffer(stream: ReadableStream<Uint8Array>): Promise<Buffer>
 }
 export type Blake2sHasher = Blake2SHasher
 
@@ -106,6 +112,8 @@ export declare class Blake2SpHasher {
   update(input: string | Buffer | number): this
   digest(format?: string | undefined | null): string
   digestBuffer(): Buffer
+  digestStream(stream: ReadableStream<Uint8Array>, format?: string | undefined | null): Promise<string>
+  digestStreamBuffer(stream: ReadableStream<Uint8Array>): Promise<Buffer>
 }
 export type Blake2spHasher = Blake2SpHasher
 
@@ -125,6 +133,8 @@ export declare class Blake3Hasher {
   update(input: string | Uint8Array | number): this
   digest(format?: string | undefined | null): string
   digestBuffer(): Buffer
+  digestStream(stream: ReadableStream<Uint8Array>, format?: string | undefined | null): Promise<string>
+  digestStreamBuffer(stream: ReadableStream<Uint8Array>): Promise<Buffer>
 }
 
 export declare function blake2b(input: string | Uint8Array): Buffer

@@ -4,6 +4,7 @@
 use base64::Engine;
 use napi::bindgen_prelude::*;
 use napi_derive::napi;
+use tokio_stream::StreamExt;
 
 #[cfg(not(target_family = "wasm"))]
 #[global_allocator]
@@ -12,6 +13,21 @@ static ALLOC: mimalloc_safe::MiMalloc = mimalloc_safe::MiMalloc;
 mod blake2_params;
 
 use blake2_params::{Blake2bParam, Blake2bpParam, Blake2sParam, Blake2spParam};
+
+fn encode_digest(bytes: &[u8], format: Option<String>) -> Result<String> {
+  match format.as_deref().unwrap_or("hex") {
+    "hex" => Ok(hex::encode(bytes)),
+    "base64" => Ok(base64::engine::general_purpose::STANDARD.encode(bytes)),
+    "base64-url-safe" => Ok(
+      base64::engine::general_purpose::GeneralPurpose::new(
+        &base64::alphabet::URL_SAFE,
+        base64::engine::general_purpose::PAD,
+      )
+      .encode(bytes),
+    ),
+    _ => Err(Error::new(Status::InvalidArg, "Invalid format".to_owned())),
+  }
+}
 
 macro_rules! impl_hasher {
   ($name:ident, $algorithm:expr, $params:ident) => {
@@ -65,6 +81,41 @@ macro_rules! impl_hasher {
       #[napi]
       pub fn digest_buffer(&mut self) -> Buffer {
         self.0.finalize().as_ref().into()
+      }
+
+      #[napi]
+      pub fn digest_stream(
+        &self,
+        env: &Env,
+        stream: ReadableStream<Uint8Array>,
+        format: Option<String>,
+      ) -> Result<AsyncBlock<String>> {
+        let mut state = self.0.clone();
+        let mut reader = stream.read()?;
+        AsyncBlockBuilder::new(async move {
+          while let Some(chunk) = reader.next().await {
+            state.update(chunk?.as_ref());
+          }
+          encode_digest(state.finalize().as_ref(), format)
+        })
+        .build(env)
+      }
+
+      #[napi]
+      pub fn digest_stream_buffer(
+        &self,
+        env: &Env,
+        stream: ReadableStream<Uint8Array>,
+      ) -> Result<AsyncBlock<Buffer>> {
+        let mut state = self.0.clone();
+        let mut reader = stream.read()?;
+        AsyncBlockBuilder::new(async move {
+          while let Some(chunk) = reader.next().await {
+            state.update(chunk?.as_ref());
+          }
+          Ok(Buffer::from(state.finalize().as_ref()))
+        })
+        .build(env)
       }
     }
   };
@@ -175,6 +226,41 @@ impl Blake3Hasher {
   #[napi]
   pub fn digest_buffer(&mut self) -> Buffer {
     self.0.finalize().as_bytes().to_vec().into()
+  }
+
+  #[napi]
+  pub fn digest_stream(
+    &self,
+    env: &Env,
+    stream: ReadableStream<Uint8Array>,
+    format: Option<String>,
+  ) -> Result<AsyncBlock<String>> {
+    let mut state = self.0.clone();
+    let mut reader = stream.read()?;
+    AsyncBlockBuilder::new(async move {
+      while let Some(chunk) = reader.next().await {
+        state.update(chunk?.as_ref());
+      }
+      encode_digest(state.finalize().as_bytes(), format)
+    })
+    .build(env)
+  }
+
+  #[napi]
+  pub fn digest_stream_buffer(
+    &self,
+    env: &Env,
+    stream: ReadableStream<Uint8Array>,
+  ) -> Result<AsyncBlock<Buffer>> {
+    let mut state = self.0.clone();
+    let mut reader = stream.read()?;
+    AsyncBlockBuilder::new(async move {
+      while let Some(chunk) = reader.next().await {
+        state.update(chunk?.as_ref());
+      }
+      Ok(Buffer::from(state.finalize().as_bytes().as_slice()))
+    })
+    .build(env)
   }
 }
 

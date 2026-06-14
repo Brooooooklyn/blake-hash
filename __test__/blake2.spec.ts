@@ -1,3 +1,5 @@
+import { Readable } from 'node:stream'
+
 import test from 'ava'
 
 import {
@@ -5,6 +7,7 @@ import {
   Blake2BpHasher,
   Blake2SpHasher,
   Blake2SHasher,
+  blake2b,
 } from '../index'
 
 test('blake2b', (t) => {
@@ -37,4 +40,19 @@ test('blake2sp', (t) => {
     hasher.update('hello').digest('hex'),
     '223dfe42565ddf97210b34a384860b603717d5c63c1872c9fc99f1b15de6631b',
   )
+})
+
+test('blake2b digestStream', async (t) => {
+  const buf = Buffer.from('hello world stream test')
+  const web = () => Readable.toWeb(Readable.from(buf))
+  t.is(
+    await new Blake2BHasher().digestStream(web()),
+    blake2b(buf).toString('hex'),
+  )
+})
+
+test('blake2b digestStreamBuffer', async (t) => {
+  const buf = Buffer.from('hello world stream test')
+  const web = () => Readable.toWeb(Readable.from(buf))
+  t.deepEqual(await new Blake2BHasher().digestStreamBuffer(web()), blake2b(buf))
 })
