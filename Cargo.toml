@@ -12,7 +12,7 @@ blake2b_simd = "1.0"
 blake2s_simd = "1.0"
 blake3 = "1"
 hex = "0.4"
-napi = { version = "3", features = ["web_stream", "napi5"] }
+napi = { version = "3.9.2", features = ["web_stream", "napi5"] }
 napi-derive = "3"
 ryu = "1"
 tokio-stream = "0.1"
@@ -29,8 +29,3 @@ napi-build = "2"
 [profile.release]
 codegen-units = 1
 lto = true
-
-[patch.crates-io]
-napi = { path = "../napi-rs/crates/napi" }
-napi-derive = { path = "../napi-rs/crates/macro" }
-napi-build = { path = "../napi-rs/crates/build" }
