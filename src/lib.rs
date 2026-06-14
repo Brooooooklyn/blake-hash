@@ -104,10 +104,12 @@ macro_rules! impl_hasher {
         stream: ReadableStream<Uint8Array>,
         format: Option<String>,
       ) -> Result<AsyncBlock<String>> {
-        let format = DigestFormat::parse(format)?;
         let mut state = self.0.clone();
         let mut reader = stream.read()?;
         AsyncBlockBuilder::new(async move {
+          // Validate the format before pulling any chunks so a bad format rejects the
+          // returned Promise (rather than throwing synchronously) without draining input.
+          let format = DigestFormat::parse(format)?;
           while let Some(chunk) = reader.next().await {
             state.update(chunk?.as_ref());
           }
@@ -250,10 +252,12 @@ impl Blake3Hasher {
     stream: ReadableStream<Uint8Array>,
     format: Option<String>,
   ) -> Result<AsyncBlock<String>> {
-    let format = DigestFormat::parse(format)?;
     let mut state = self.0.clone();
     let mut reader = stream.read()?;
     AsyncBlockBuilder::new(async move {
+      // Validate the format before pulling any chunks so a bad format rejects the
+      // returned Promise (rather than throwing synchronously) without draining input.
+      let format = DigestFormat::parse(format)?;
       while let Some(chunk) = reader.next().await {
         state.update(chunk?.as_ref());
       }

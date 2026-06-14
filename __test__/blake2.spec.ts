@@ -92,11 +92,10 @@ test('blake2b digestStream errored stream rejects without crashing', async (t) =
   await t.throwsAsync(() => new Blake2BHasher().digestStream(errored))
 })
 
-test('blake2b digestStream invalid format rejects', (t) => {
-  // Format is now validated synchronously up front (before consuming the
-  // stream), so a bad format throws synchronously rather than returning a
-  // rejected Promise.
-  t.throws(() =>
+test('blake2b digestStream invalid format rejects', async (t) => {
+  // A bad format rejects the returned Promise (validated inside the async block,
+  // before any chunk is pulled) rather than throwing synchronously.
+  await t.throwsAsync(() =>
     new Blake2BHasher().digestStream(streamOf([Buffer.from('x')]), 'bogus'),
   )
 })
