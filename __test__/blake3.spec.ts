@@ -4,6 +4,15 @@ import test from 'ava'
 
 import { Blake3Hasher, blake3 } from '../index'
 
+function streamOf(chunks: Buffer[]): ReadableStream<Uint8Array> {
+  return new ReadableStream({
+    start(c) {
+      for (const ch of chunks) c.enqueue(new Uint8Array(ch))
+      c.close()
+    },
+  })
+}
+
 test('blake3', (t) => {
   const hasher = new Blake3Hasher()
   t.is(
@@ -62,5 +71,50 @@ test('blake3 digestStream format base64', async (t) => {
   t.is(
     await new Blake3Hasher().digestStream(web(), 'base64'),
     new Blake3Hasher().update(buf).digest('base64'),
+  )
+})
+
+test('blake3 digestStream multi-chunk correctness', async (t) => {
+  const chunks: Buffer[] = []
+  for (let i = 0; i < 64; i++) {
+    chunks.push(Buffer.from([i & 0xff, (i * 7) & 0xff, (i * 13) & 0xff]))
+  }
+  const expected = blake3(Buffer.concat(chunks)).toString('hex')
+  // The lost-chunk bug was deterministic at 64 chunks; loop to be safe.
+  for (let attempt = 0; attempt < 5; attempt++) {
+    t.is(await new Blake3Hasher().digestStream(streamOf(chunks)), expected)
+  }
+})
+
+test('blake3 digestStreamBuffer multi-chunk correctness', async (t) => {
+  const chunks: Buffer[] = []
+  for (let i = 0; i < 64; i++) {
+    chunks.push(Buffer.from([i & 0xff, (i * 7) & 0xff, (i * 13) & 0xff]))
+  }
+  const expected = blake3(Buffer.concat(chunks))
+  for (let attempt = 0; attempt < 5; attempt++) {
+    t.deepEqual(
+      await new Blake3Hasher().digestStreamBuffer(streamOf(chunks)),
+      expected,
+    )
+  }
+})
+
+test('blake3 digestStream errored stream rejects without crashing', async (t) => {
+  const errored = new ReadableStream({
+    start(c) {
+      c.enqueue(new Uint8Array([1, 2, 3]))
+      c.error(new Error('boom'))
+    },
+  })
+  await t.throwsAsync(() => new Blake3Hasher().digestStream(errored))
+})
+
+test('blake3 digestStream invalid format rejects', (t) => {
+  // Format is now validated synchronously up front (before consuming the
+  // stream), so a bad format throws synchronously rather than returning a
+  // rejected Promise.
+  t.throws(() =>
+    new Blake3Hasher().digestStream(streamOf([Buffer.from('x')]), 'bogus'),
   )
 })

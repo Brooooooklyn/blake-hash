@@ -14,18 +14,32 @@ mod blake2_params;
 
 use blake2_params::{Blake2bParam, Blake2bpParam, Blake2sParam, Blake2spParam};
 
-fn encode_digest(bytes: &[u8], format: Option<String>) -> Result<String> {
-  match format.as_deref().unwrap_or("hex") {
-    "hex" => Ok(hex::encode(bytes)),
-    "base64" => Ok(base64::engine::general_purpose::STANDARD.encode(bytes)),
-    "base64-url-safe" => Ok(
-      base64::engine::general_purpose::GeneralPurpose::new(
+enum DigestFormat {
+  Hex,
+  Base64,
+  Base64UrlSafe,
+}
+
+impl DigestFormat {
+  fn parse(format: Option<String>) -> Result<Self> {
+    match format.as_deref().unwrap_or("hex") {
+      "hex" => Ok(Self::Hex),
+      "base64" => Ok(Self::Base64),
+      "base64-url-safe" => Ok(Self::Base64UrlSafe),
+      _ => Err(Error::new(Status::InvalidArg, "Invalid format".to_owned())),
+    }
+  }
+
+  fn encode(&self, bytes: &[u8]) -> String {
+    match self {
+      Self::Hex => hex::encode(bytes),
+      Self::Base64 => base64::engine::general_purpose::STANDARD.encode(bytes),
+      Self::Base64UrlSafe => base64::engine::general_purpose::GeneralPurpose::new(
         &base64::alphabet::URL_SAFE,
         base64::engine::general_purpose::PAD,
       )
       .encode(bytes),
-    ),
-    _ => Err(Error::new(Status::InvalidArg, "Invalid format".to_owned())),
+    }
   }
 }
 
@@ -90,13 +104,14 @@ macro_rules! impl_hasher {
         stream: ReadableStream<Uint8Array>,
         format: Option<String>,
       ) -> Result<AsyncBlock<String>> {
+        let format = DigestFormat::parse(format)?;
         let mut state = self.0.clone();
         let mut reader = stream.read()?;
         AsyncBlockBuilder::new(async move {
           while let Some(chunk) = reader.next().await {
             state.update(chunk?.as_ref());
           }
-          encode_digest(state.finalize().as_ref(), format)
+          Ok(format.encode(state.finalize().as_ref()))
         })
         .build(env)
       }
@@ -235,13 +250,14 @@ impl Blake3Hasher {
     stream: ReadableStream<Uint8Array>,
     format: Option<String>,
   ) -> Result<AsyncBlock<String>> {
+    let format = DigestFormat::parse(format)?;
     let mut state = self.0.clone();
     let mut reader = stream.read()?;
     AsyncBlockBuilder::new(async move {
       while let Some(chunk) = reader.next().await {
         state.update(chunk?.as_ref());
       }
-      encode_digest(state.finalize().as_bytes(), format)
+      Ok(format.encode(state.finalize().as_bytes()))
     })
     .build(env)
   }
