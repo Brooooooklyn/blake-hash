@@ -12,9 +12,10 @@ blake2b_simd = "1.0"
 blake2s_simd = "1.0"
 blake3 = "1"
 hex = "0.4"
-napi = "3"
+napi = { version = "3.9.2", features = ["web_stream", "napi5"] }
 napi-derive = "3"
 ryu = "1"
+tokio-stream = "0.1"
 
 [target.'cfg(all(not(target_os = "linux"), not(target_family = "wasm")))'.dependencies]
 mimalloc-safe = { version = "0.1" }

@@ -1,3 +1,5 @@
+import { Readable } from 'node:stream'
+
 import test from 'ava'
 
 import {
@@ -5,7 +7,17 @@ import {
   Blake2BpHasher,
   Blake2SpHasher,
   Blake2SHasher,
+  blake2b,
 } from '../index'
+
+function streamOf(chunks: Buffer[]): ReadableStream<Uint8Array> {
+  return new ReadableStream({
+    start(c) {
+      for (const ch of chunks) c.enqueue(new Uint8Array(ch))
+      c.close()
+    },
+  })
+}
 
 test('blake2b', (t) => {
   const hasher = new Blake2BHasher()
@@ -36,5 +48,54 @@ test('blake2sp', (t) => {
   t.is(
     hasher.update('hello').digest('hex'),
     '223dfe42565ddf97210b34a384860b603717d5c63c1872c9fc99f1b15de6631b',
+  )
+})
+
+test('blake2b digestStream', async (t) => {
+  const buf = Buffer.from('hello world stream test')
+  const web = () => Readable.toWeb(Readable.from(buf))
+  t.is(
+    await new Blake2BHasher().digestStream(web()),
+    blake2b(buf).toString('hex'),
+  )
+})
+
+test('blake2b digestStreamBuffer', async (t) => {
+  const buf = Buffer.from('hello world stream test')
+  const web = () => Readable.toWeb(Readable.from(buf))
+  t.deepEqual(await new Blake2BHasher().digestStreamBuffer(web()), blake2b(buf))
+})
+
+test('blake2b digestStream multi-chunk correctness', async (t) => {
+  const chunks: Buffer[] = []
+  for (let i = 0; i < 64; i++) {
+    chunks.push(Buffer.from([i & 0xff, (i * 7) & 0xff, (i * 13) & 0xff]))
+  }
+  const concat = Buffer.concat(chunks)
+  const expected = blake2b(concat).toString('hex')
+  for (let attempt = 0; attempt < 5; attempt++) {
+    t.is(await new Blake2BHasher().digestStream(streamOf(chunks)), expected)
+  }
+  t.deepEqual(
+    await new Blake2BHasher().digestStreamBuffer(streamOf(chunks)),
+    blake2b(concat),
+  )
+})
+
+test('blake2b digestStream errored stream rejects without crashing', async (t) => {
+  const errored = new ReadableStream({
+    start(c) {
+      c.enqueue(new Uint8Array([1, 2, 3]))
+      c.error(new Error('boom'))
+    },
+  })
+  await t.throwsAsync(() => new Blake2BHasher().digestStream(errored))
+})
+
+test('blake2b digestStream invalid format rejects', async (t) => {
+  // A bad format rejects the returned Promise (validated inside the async block,
+  // before any chunk is pulled) rather than throwing synchronously.
+  await t.throwsAsync(() =>
+    new Blake2BHasher().digestStream(streamOf([Buffer.from('x')]), 'bogus'),
   )
 })
