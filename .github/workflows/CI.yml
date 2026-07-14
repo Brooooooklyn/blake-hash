@@ -26,7 +26,7 @@ jobs:
       - uses: actions/checkout@v7
 
       - name: Setup node
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: 'yarn'
@@ -102,7 +102,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Setup node
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: yarn
@@ -145,7 +145,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --mode=skip-build
       - name: Setup node x86
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         if: matrix.settings.target == 'i686-pc-windows-msvc'
         with:
           node-version: 22
@@ -228,7 +228,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Setup node
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
@@ -269,7 +269,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Setup node
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
@@ -337,7 +337,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Setup node
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: yarn
